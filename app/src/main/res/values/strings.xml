@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Eerie Errands</string>
+    <string name="button">Button</string>
+    <string name="eerie_errands">Eerie Errands</string>
+    <string name="email">email:</string>
+    <string name="confirm_email">confirm email:</string>
+    <string name="password">password:</string>
+    <string name="confirm_password">confirm password:</string>
+    <string name="create_account">Create Account</string>
+    <string name="last_name">last name:</string>
+    <string name="first_name">first name:</string>
+    <string name="login">Login</string>
+</resources>
