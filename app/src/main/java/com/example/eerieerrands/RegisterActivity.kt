@@ -8,6 +8,8 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.eerieerrands.databinding.ActivityRegisterBinding
+import com.example.eerieerrands.model.NewUser
+import com.example.eerieerrands.model.UserEntity
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -20,6 +22,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RegisterActivity : BaseActivity() {
 
     lateinit var binding: ActivityRegisterBinding
+
+    val api = Client()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,17 +41,12 @@ class RegisterActivity : BaseActivity() {
         val passwordString = binding.editTextTextPassword.text.toString()
         val emailString = binding.editTextEmailAddress.text.toString()
 
-        val api = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8080/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(ApiInterface::class.java)
-
         if(validateRegisterDetails()) {
             MainScope().launch(Dispatchers.IO) {
                 try {
+                    val user = NewUser(emailString, passwordString, firstNameString, lastNameString)
                     Log.d("LAUNCH", "ATTEMPTING TO REGISTER USER")
-                    val response = api.register(emailString, passwordString, firstNameString, lastNameString).awaitResponse()
+                    val response = api.service.register(user).awaitResponse()
                     Log.d("RESPONSE CODE", response.code().toString())
                     val responseCode = response.code().toString()
                     if (responseCode == "500") {
